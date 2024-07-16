@@ -9,3 +9,5 @@ Collection of utility scripts for ghidra for Bethesda game reverse engineering.
 ```
 
 - PopulateParameters (Java) - Populate parameters based on symbol names. This script will try to populate parameters in a function for 1) class parameters based on namespace detection (e.g., ("class::function") and 2) any parameter definition in the name (e.g., "funcname(param_type1, paramtype_2)()"). Only valid datatypes within the program will be populated. Any arguments will be renamed with the missing datatype name.
+
+- FindBethesdaVariablesScript (Java) - This script will search for data types that follow Bethesda Settings Variables rules and rename them accordingly. Found in Skyrim/Fallout/Starfall. These are 4 byte data types followed by 4 bytes of 0 and then a string pointer to the data type.
