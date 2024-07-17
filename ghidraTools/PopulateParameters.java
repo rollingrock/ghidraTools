@@ -331,7 +331,7 @@ public class PopulateParameters extends GhidraScript {
     private DataType findDataType(String dataType) {
         DataType best = null;
         for (DataType dt : datatypes) {
-            if (dt.getName().toString().equals(dataType)) {
+            if (dt != null && dt.getName().toString().equals(dataType)) {
                 // if (debug)
                 // printf("\tFound dt %s\t%s\n", dt.getDisplayName(), dt.getLength());
                 if (best == null) {
