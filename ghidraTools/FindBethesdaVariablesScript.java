@@ -48,7 +48,7 @@ public class FindBethesdaVariablesScript extends GhidraScript {
         prefixDataTypeMap.put("str", StringDataType.dataType);
         prefixDataTypeMap.put("byte", ByteDataType.dataType);
         prefixDataTypeMap.put("u", UnsignedIntegerDataType.dataType); // Custom uint32_t mapping
-
+        prefixDataTypeMap.put("ui", UnsignedIntegerDataType.dataType); // Custom uint32_t mapping
         // Initialize statistics map
         for (String prefix : prefixDataTypeMap.keySet()) {
             statisticsMap.put(prefix, 0);
@@ -176,8 +176,8 @@ public class FindBethesdaVariablesScript extends GhidraScript {
                         String string = readString(pointerAddress);
                         // Validate the string based on prefixes
                         for (String prefix : prefixDataTypeMap.keySet()) {
-                            if (string.startsWith(prefix) && string.length() > 1
-                                    && Character.isUpperCase(string.charAt(1))) {
+                            if (string.startsWith(prefix) && string.length() > prefix.length()
+                                    && Character.isUpperCase(string.charAt(prefix.length()))) {
                                 return string;
                             }
                         }
