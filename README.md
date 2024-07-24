@@ -15,3 +15,5 @@ Collection of utility scripts for ghidra for Bethesda game reverse engineering.
 # Links
 
 - https://github.com/Thiago099/ghidra_scripts
+- https://github.com/alandtse/pdbgen - Generates fakePDBs using Ghidra data. Used to generate pdbs in [CrashLogger SSE](https://www.nexusmods.com/skyrimspecialedition/mods/59818) and [Buffout4 NG](https://www.nexusmods.com/fallout4/mods/64880)
+- [RE Ghidra Wiki](https://github.com/DaymareOn/SSE-Ghidra-Tutorial/wiki)

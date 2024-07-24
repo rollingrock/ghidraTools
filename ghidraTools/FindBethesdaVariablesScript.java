@@ -48,7 +48,7 @@ public class FindBethesdaVariablesScript extends GhidraScript {
         prefixDataTypeMap.put("str", StringDataType.dataType);
         prefixDataTypeMap.put("byte", ByteDataType.dataType);
         prefixDataTypeMap.put("u", UnsignedIntegerDataType.dataType); // Custom uint32_t mapping
-
+        prefixDataTypeMap.put("ui", UnsignedIntegerDataType.dataType); // Custom uint32_t mapping
         // Initialize statistics map
         for (String prefix : prefixDataTypeMap.keySet()) {
             statisticsMap.put(prefix, 0);
@@ -122,8 +122,8 @@ public class FindBethesdaVariablesScript extends GhidraScript {
                         if (data != null)
                             oldDataType = data.getDataType();
                         // Change data type to match the new name
-                        String changestring = address + " (" + oldDataType + " " + symbolName
-                                + ") to " + newDataType + " " + newName;
+                        String changestring = address + " (" + oldDataType + " " + symbolName + ") to " + newDataType
+                                + " " + newName;
                         println("Checking for rename of symbol at " + changestring);
                         if (!interactive || confirmRename(changestring)) {
                             renameDataAtAddress(address, newName, newDataType);
@@ -176,8 +176,8 @@ public class FindBethesdaVariablesScript extends GhidraScript {
                         String string = readString(pointerAddress);
                         // Validate the string based on prefixes
                         for (String prefix : prefixDataTypeMap.keySet()) {
-                            if (string.startsWith(prefix) && string.length() > 1
-                                    && Character.isUpperCase(string.charAt(1))) {
+                            if (string.startsWith(prefix) && string.length() > prefix.length()
+                                    && Character.isUpperCase(string.charAt(prefix.length()))) {
                                 return string;
                             }
                         }
@@ -232,28 +232,23 @@ public class FindBethesdaVariablesScript extends GhidraScript {
 
     private boolean confirmRename(String changeString) throws CancelledException {
         // Show dialog to confirm renaming
-        int option = JOptionPane.showOptionDialog(null,
-                "Rename " + changeString + "?",
-                "Confirm Rename",
-                JOptionPane.YES_NO_CANCEL_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                new Object[] { "Rename", "Skip", "Rename All", "Cancel" },
-                "Rename");
+        int option = JOptionPane.showOptionDialog(null, "Rename " + changeString + "?", "Confirm Rename",
+                JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                new Object[] { "Rename", "Skip", "Rename All", "Cancel" }, "Rename");
 
         switch (option) {
-            case JOptionPane.YES_OPTION:
-                return true;
-            case JOptionPane.NO_OPTION:
-                return false;
-            case JOptionPane.CANCEL_OPTION: // "Rename All"
-                interactive = false;
-                return true;
-            case 3:
-            case JOptionPane.CLOSED_OPTION:
-                throw new CancelledException();
-            default:
-                return false;
+        case JOptionPane.YES_OPTION:
+            return true;
+        case JOptionPane.NO_OPTION:
+            return false;
+        case JOptionPane.CANCEL_OPTION: // "Rename All"
+            interactive = false;
+            return true;
+        case 3:
+        case JOptionPane.CLOSED_OPTION:
+            throw new CancelledException();
+        default:
+            return false;
         }
     }
 
@@ -275,8 +270,7 @@ public class FindBethesdaVariablesScript extends GhidraScript {
         listing.createData(address, newDataType);
         SymbolTable symbolTable = currentProgram.getSymbolTable();
         symbolTable.createLabel(address, newName, SourceType.ANALYSIS);
-        String changestring = address + " (" + oldDataType + " " + oldName
-                + ") to " + newDataType + " " + newName;
+        String changestring = address + " (" + oldDataType + " " + oldName + ") to " + newDataType + " " + newName;
         println("Renamed data at address " + changestring);
     }
 
